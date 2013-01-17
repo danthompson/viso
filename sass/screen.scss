@@ -241,7 +241,12 @@ a:visited {
 
   img {
     max-width: 100%;
+
+    &.emoji{
+      vertical-align: middle;
+    }
   }
+
 }
 
 #image {

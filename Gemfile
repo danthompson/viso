@@ -17,6 +17,7 @@ gem 'sinatra'
 gem 'sinatra-contrib'
 gem 'thin'
 gem 'yajl-ruby'
+gem 'gemoji'
 
 group :test do
   gem 'rspec'

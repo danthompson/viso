@@ -1,5 +1,8 @@
 require 'rspec/core/rake_task'
+load 'tasks/emoji.rake'
+
 RSpec::Core::RakeTask.new
+
 task :default => :spec
 
 desc 'Move documentation to the docs project root'

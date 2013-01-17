@@ -63,6 +63,8 @@ Browse to <http://localhost:3000>. If you're redirected to
 "cl.ly" domain with "localhost:3000" and watch the magic happen. Or, if you're
 lazy, just [click here](http://localhost:3000/2wr4).
 
+To enable emoji support when rendering markdown, you must first run 
+`bundle exec rake emoji` to copy the emoji images to `public/image/emoji` path.
 
 ## Working
 
