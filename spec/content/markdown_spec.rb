@@ -32,6 +32,54 @@ describe Content::Markdown do
       end
     end
 
+    context 'when emoji are present' do
+      before do
+        Content::EmojiedHTML.any_instance.stub(has_emoji_images?: true)
+      end
+
+      it 'interpolates emoji icons' do
+        raw   = '# Chapter 1 :books:'
+        emoji = '<img alt="books" src="images/emoji/books.png" ' \
+                'width="20" height="20" class="emoji" />'
+
+        EM.synchrony do
+          drop = FakeContent.new 'http://cl.ly/hhgttg/chapter1.md'
+          drop.stub! :raw => raw
+          EM.stop
+
+          drop.content.should include(emoji)
+        end
+      end
+
+      it 'does not interpolate invalid emoji' do
+        raw   = '# Chapter 1 :not_emoji:'
+        markdown = '<h1>Chapter 1 :not_emoji:</h1>'
+
+        EM.synchrony do
+          drop = FakeContent.new 'http://cl.ly/hhgttg/chapter1.md'
+          drop.stub! :raw => raw
+          EM.stop
+
+          drop.content.strip.should == markdown
+        end
+      end
+
+      it 'does not interpolate emoji if emoji icons are missing' do
+        Content::EmojiedHTML.any_instance.stub(has_emoji_images?: false)
+        raw   = '# Chapter 1 :books:'
+        markdown = '<h1>Chapter 1 :books:</h1>'
+
+        EM.synchrony do
+          drop = FakeContent.new 'http://cl.ly/hhgttg/chapter1.md'
+          drop.stub! :raw => raw
+          EM.stop
+
+          drop.content.strip.should == markdown
+        end
+      end
+
+    end
+
     it 'calls #super for non-markdown files' do
       drop = FakeContent.new 'http://cl.ly/hhgttg/chapter1.txt'
       drop.content.should == 'super content'
